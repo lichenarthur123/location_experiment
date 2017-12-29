@@ -4,7 +4,7 @@ import SocketServer
 import time
 import pickle
 
-Myhost = 'localhost'
+Myhost = '47.93.204.170'
 Port = 8080
 
 class MyHandler(SocketServer.BaseRequestHandler):
