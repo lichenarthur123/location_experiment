@@ -6,6 +6,7 @@ PORT = 8080
 
 if __name__ == '__main__':
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	data = "hello"
 	sock.sendto(data + "\n", (HOST, PORT))
 	received = sock.recv(1024)
 	print received
