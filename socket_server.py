@@ -47,7 +47,7 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		print "received."
 		socket = self.request[1]
 		socket.sendto(content,self.client_address)
-		print "sent to client:"+self.client_address
+		print "sent to client:"+self.client_address[0]
 		
 	#master assign a task
 	def task(self):
