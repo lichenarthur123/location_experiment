@@ -13,6 +13,7 @@ class MyHandler(SocketServer.BaseRequestHandler):
 	def handle(self):
 		data = self.request[0].strip()
         #socket = self.request[1]
+		print "received a request."
 		self.route(data)
 		
 	#route requests	
@@ -23,7 +24,7 @@ class MyHandler(SocketServer.BaseRequestHandler):
 			'challenge':self.challenge
 		}
 		req = pickle.loads(data)
-		route_table[req['head']](req['contents'])
+		route_table[req["head"]](req["contents"])
 		
 	# as a V to generate a challenge and send to server
 	def challenge(self):
@@ -46,6 +47,7 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		print "received."
 		socket = self.request[1]
 		socket.sendto(content,self.client_address)
+		print "sent to client:"+self.client_address
 		
 	#master assign a task
 	def task(self):
