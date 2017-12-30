@@ -3,6 +3,7 @@
 import SocketServer
 import time
 import pickle
+from datetime import datetime
 
 Myhost = ''
 Port = 8080
@@ -21,7 +22,8 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		route_table = {
 			'task':"test",
 			'test_alive':self.test_alive,
-			'challenge':self.challenge
+			'challenge':self.challenge,
+			'measure':self.measure
 		}
 		req = pickle.loads(data)
 		route_table[req["head"]](req["contents"])
@@ -46,6 +48,13 @@ class MyHandler(SocketServer.BaseRequestHandler):
 	def test_alive(self,content):
 		print "received."
 		socket = self.request[1]
+		socket.sendto(content,self.client_address)
+		print "sent to client:"+self.client_address[0]
+		
+	def measure(self,content):
+		socket = self.request[1]
+		content[1] = datetime.utcnow()
+		content = pickle.dumps(content)
 		socket.sendto(content,self.client_address)
 		print "sent to client:"+self.client_address[0]
 		
