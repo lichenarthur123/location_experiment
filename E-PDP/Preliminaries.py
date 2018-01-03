@@ -1,5 +1,5 @@
 #coding=utf-8
-blocksize = 1024*10
+blocksize = 1024*4
 def GenBlocks(fileName):
 	global blocksize
 	with open(fileName,'rb') as f:
@@ -19,14 +19,14 @@ def GenBlocks(fileName):
 				ed = len(file)
 			block = file[i*blocksize:ed]
 			blocks.append(block)
-			with open('fileName'+'_B'+str(i),'wb') as subf:
+			with open('testfile/fileName'+'_B'+str(i),'wb') as subf:
 				subf.write(block)
 		print len(file)
 		print blocksize
 		return blocks
 
 if __name__ == "__main__":
-	fileName = 'test_file_4k'
+	fileName = 'test_file_400k'
 	blocks = GenBlocks(fileName)
 	#print len(blocks)
 	#print blocks

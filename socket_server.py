@@ -22,19 +22,10 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		route_table = {
 			'task':"test",
 			'test_alive':self.test_alive,
-			'challenge':self.challenge,
 			'measure':self.measure
 		}
 		req = pickle.loads(data)
 		route_table[req["head"]](req["contents"])
-		
-	# as a V to generate a challenge and send to server
-	def challenge(self):
-		pass
-	
-	# query be challenge
-	def query_challenge(self):
-		pass
 	
 	#server generate a proof and send to V
 	def proof(self):
@@ -58,9 +49,7 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		socket.sendto(content,self.client_address)
 		print "sent to client:"+self.client_address[0]
 		
-	#master assign a task
-	def task(self):
-		pass
+			
 
 if __name__ == "__main__":
 	s = SocketServer.UDPServer((Myhost,Port),MyHandler)
