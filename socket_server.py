@@ -46,7 +46,10 @@ class MyHandler(SocketServer.BaseRequestHandler):
 		socket = self.request[1]
 		content[1] = datetime.utcnow()
 		content = pickle.dumps(content)
+		print self.client_address
 		socket.sendto(content,self.client_address)
+		
+		#socket.sendto(content,('61.164,37.139',self.client_address[1]))
 		print "sent to client:"+self.client_address[0]
 		
 			

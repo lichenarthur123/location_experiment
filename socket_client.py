@@ -5,13 +5,14 @@ from datetime import datetime
 HOST = '47.93.204.170'
 PORT = 8080
 from scapy.all import *
+from sys import argv
 
 def syn_scan(host,port):
 	t = datetime.utcnow()
 	a = sr1(IP(dst=host)/TCP(dport=port,flags="S"))
 	t = datetime.utcnow() - t
 	t = t.total_seconds()*1000
-	return (t,64 - a.ttl)
+	return (t,255-a.ttl)
 
 def measure(host,port):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,17 +20,9 @@ def measure(host,port):
 		"head":"measure",
 		"contents":[datetime.utcnow(),0,0]
 	}
-	
-
-if __name__ == '__main__':
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	data = {
-		"head":"measure",
-		"contents":[datetime.utcnow(),0,0]
-	}
 	req = pickle.dumps(data)
-	sock.sendto(req + "\n", (HOST, PORT))
-	print "sent data to "+HOST+" "+str(PORT)
+	sock.sendto(req + "\n", (host, port))
+	print "sent data to "+host+" "+str(port)
 	print "waiting..."
 	received = sock.recv(1024)
 	t = datetime.utcnow()
@@ -41,3 +34,11 @@ if __name__ == '__main__':
 	delay1 = delay1.total_seconds()
 	
 	print str(delay0),str(delay1)
+	
+
+if __name__ == '__main__':
+	func = {
+		"scan":syn_scan,
+		"measure":measure
+	}
+	print func[argv[1]](argv[2],int(argv[3]))
